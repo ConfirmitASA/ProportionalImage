@@ -1,7 +1,7 @@
 {
-  "name": "r-react-video-hitlist",
+  "name": "ES6_react_test_framework_boilerplate",
   "version": "0.1.0",
-  "description": "Reportal React component for presenting a video-board with hitlist data",
+  "description": "ES6 react test framework boilerplate",
   "main": "src/main.js",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "clean": "rimraf dist build",
     "lint": "eslint src",
     "docs": "node_modules/.bin/jsdoc --configure jsdoc.conf --verbose",
-    "docs-commit": "git subtree push --prefix docs/r-react-video-hitlist/0.1.0 origin gh-pages",
+    "docs-commit": "git subtree push --prefix docs/ES6_react_test_framework_boilerplate/0.1.0 origin gh-pages",
     "test": "karma start --single-run --no-auto-watch karma.config.js",
     "report-coverage": "codecov -f coverage/lcov.info"
   },
