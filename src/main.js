@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from "./main.css";
 //import ReactDOM from 'react-dom';
 
 class ProportionalImage extends React.Component {
@@ -58,6 +57,7 @@ class ProportionalImage extends React.Component {
    * @param {Boolean} props.preload - When `true`, any change to the `src` property will cause the `placeholder` image to be shown until the new image has loaded.
    * @param {Boolean} props.fade - When `preload` is true, setting `fade` to true will cause the image to fade into place.
    * @param {String} props.placeholder - This image will be used as a background/placeholder until the src image has loaded. Use of a data-URI for placeholder is encouraged for instant rendering.
+   * @param {String} props.placeholderSizing - Sets a sizing option for the placeholder. By default it's the same as for the `src` image, but set to `initial` or other valid `background-size` value to override.
    * @param {String} props.width - Can be used to set the width of image (e.g. via binding); size may also be set via CSS.
    * @param {String} props.height - Can be used to set the height of image (e.g. via binding); size may also be set via CSS.
    * @param {String} props.aspect - Specify the aspect ratio to maintain, two numbers separated by semicolon(e.g. `16:9`). Make sure that the container for the image can resize vertically/ has enough space for it
@@ -81,8 +81,6 @@ class ProportionalImage extends React.Component {
     this._load();
     this._computeDimensions();
     this._computeProportion(this.props.aspect);
-    console.log(this.state);
-
   }
   _computeDimensions(){
     this.setState({
@@ -143,7 +141,7 @@ class ProportionalImage extends React.Component {
         <div
           style={{
             backgroundImage: `url(${this.props.placeholder?this.props.placeholder:''})`,
-            backgroundSize:this.state.sizing,
+            backgroundSize: !this.props.placeholderSizing?this.state.sizing:this.props.placeholderSizing,
             backgroundPosition:this.state.position,
             backgroundRepeat: this.state.sizing ? 'no-repeat' : ''
           }}
@@ -199,16 +197,16 @@ class ProportionalImage extends React.Component {
 export default ProportionalImage;
 
 /*ReactDOM.render(
-  <div style={{width:'300px', height:'600px'}}><ProportionalImage
-    src="https://static.pexels.com/photos/2242/wall-sport-green-bike.jpg"
-    placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAA90lEQVR4Ae2XPUrGQBRFRxAEO12BVQiWrsHCZQQsXYSrsEuRHeSnsHELthZWruALIYlYiBwrxVsEnslMlXduNQMvB+6DkITYOA45DSNrmenICX8jB3IGtjKoQgUNMWiXBSMxmJYFsXCBC1zgAhdYKalSCp454ZSXVIIDFwQCl7xvF5Q8oHxx8ztRrBNoFcc8yd29zFTrBFrFGa/88MiRzOgmsAu0iowegDfOZUI38U+BVnHNJx9cyZ1swijQKiR33MpZN2EXaBW2yCYMAq3CENmEQaBVWFPs4W06p/747YhBnfYHpCdDBaqgZdpQTq2PV0H8uGAfgm/CGielQREouQAAAABJRU5ErkJggg=="
-    sizing="cover"
-    width="100%"
-    height="200"
-    fade="true"
-    preload="true"
-    alt="bicycle"
-    aspect="1:1"
-  /></div>,
-  document.querySelector("#root")
-);*/
+ <div style={{width:'300px', height:'600px'}}><ProportionalImage
+ src="https://static.pexels.com/photos/2242/wall-sport-green-bike.jpg"
+ placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAA90lEQVR4Ae2XPUrGQBRFRxAEO12BVQiWrsHCZQQsXYSrsEuRHeSnsHELthZWruALIYlYiBwrxVsEnslMlXduNQMvB+6DkITYOA45DSNrmenICX8jB3IGtjKoQgUNMWiXBSMxmJYFsXCBC1zgAhdYKalSCp454ZSXVIIDFwQCl7xvF5Q8oHxx8ztRrBNoFcc8yd29zFTrBFrFGa/88MiRzOgmsAu0iowegDfOZUI38U+BVnHNJx9cyZ1swijQKiR33MpZN2EXaBW2yCYMAq3CENmEQaBVWFPs4W06p/747YhBnfYHpCdDBaqgZdpQTq2PV0H8uGAfgm/CGielQREouQAAAABJRU5ErkJggg=="
+ sizing="cover"
+ width="100%"
+ height="200"
+ fade="true"
+ preload="true"
+ alt="bicycle"
+ aspect="1:1"
+ /></div>,
+ document.querySelector("#root")
+ );*/
