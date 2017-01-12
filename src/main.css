@@ -1,0 +1,38 @@
+@import "vars.css";
+.ProportionalImage {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+
+  &.hidden,
+  & .hidden{
+    display:none
+  }
+  &>.sizedImgDiv {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    display: none;
+  }
+  &>img{
+    display: block;
+    width: auto;
+    height: auto;
+  }
+  &>.imagePlaceholder{
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    background-color: inherit;
+    opacity: 1;
+    &.faded-out {
+      transition: opacity 0.5s linear;
+      opacity: 0;
+    }
+    @apply --ProportionalImage-placeholder;
+  }
+}
