@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ProportionalImage - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ProportionalImage.html">ProportionalImage</a><ul class='methods'><li data-type='method'><a href="ProportionalImage.html#_computeProportion">_computeProportion</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">ProportionalImage</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        ProportionalImage
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="ProportionalImage"><span class="type-signature"></span>new ProportionalImage<span class="signature">(props)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p><code>ProportionalImage</code> is an element for displaying an image that provides useful sizing and preloading options not found on the standard <code>&lt;img&gt;</code> tag.
+The <code>sizing</code> option allows the image to be either cropped (<code>cover</code>) or letterboxed (<code>contain</code>) to fill a fixed user-size placed on the element.
+The <code>preload</code> option prevents the browser from rendering the image until the image is fully loaded.
+In the interim, either the element's CSS <code>background-color</code> can be be used as the placeholder, or the <code>placeholder</code> property can be set to a URL (preferably a data-URI, for instant rendering) for a placeholder image.
+The <code>fade</code> option (only valid when <code>preload</code> is set) will cause the placeholder image/color to be faded out once the image is rendered.</p>
+<p>Examples:
+Basically identical to <code>&lt;img src=&quot;...&quot;&gt;</code> tag:</p>
+<pre class="prettyprint source"><code>&lt;ProportionalImage width=&quot;200&quot; height=&quot;200&quot; src=&quot;http://lorempixel.com/400/400&quot; /></code></pre><p>Will letterbox the image to fit and use styles rather than the attributes to set height and width:</p>
+<pre class="prettyprint source"><code>&lt;ProportionalImage style={{width:'400px', height:'400px'}} sizing=&quot;contain&quot; src=&quot;http://lorempixel.com/600/400&quot; /></code></pre><p>Will crop the image to fit:</p>
+<pre class="prettyprint source"><code>&lt;ProportionalImage style={{width:'400px', height:'400px'}} sizing=&quot;cover&quot; src=&quot;http://lorempixel.com/600/400&quot; /></code></pre><p>Will show light-gray background until the image loads:</p>
+<pre class="prettyprint source"><code>&lt;ProportionalImage style={{width:'400px', height:'400px', backgroundColor: 'lightgray'}} sizing=&quot;cover&quot; preload=&quot;true&quot; src=&quot;http://lorempixel.com/600/400&quot; /></code></pre><p>Will show a base-64 encoded placeholder image until the image loads:</p>
+<pre class="prettyprint source"><code>&lt;ProportionalImage style={{width:'400px', height:'400px'}} placeholder=&quot;data:image/gif;base64,...&quot; sizing=&quot;cover&quot; preload=&quot;true&quot; src=&quot;http://lorempixel.com/600/400&quot; /></code></pre><p>Will fade the light-gray background out once the image is loaded:</p>
+<pre class="prettyprint source"><code>&lt;ProportionalImage style={{width:'400px', height:'400px', backgroundColor: 'lightgray'}} sizing=&quot;cover&quot; preload=&quot;true&quot; fade=&quot;true&quot; src=&quot;http://lorempixel.com/600/400&quot; /></code></pre><p>Will disregard the height, because the aspect is provided, and reduce the image height to be in 16:9 ratio. Specifying height in this case is not necessary</p>
+<pre class="prettyprint source"><code>&lt;ProportionalImage aspect=&quot;16:9&quot; style={{width:'400px', height:'400px', backgroundColor: 'lightgray'}} sizing=&quot;cover&quot; preload=&quot;true&quot; fade=&quot;true&quot; src=&quot;http://lorempixel.com/600/400&quot; /></code></pre><p>If you don't want to stretch a placeholder, but display it in its natural size even if the main image uses <code>sizing</code>, feel free to use a PostCSS mixin <code>--ProportionalImage-placeholder</code> to restyle it:</p>
+<pre class="prettyprint source lang-css"><code>:root{
+ --ProportionalImage-placeholder: {
+   background-color: #f0f2f5;
+   background-size: auto !important;
+ };
+}</code></pre>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>src</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The URL of an image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>alt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A short text alternative for the image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>preventLoad</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>When true, the image is prevented from loading and any placeholder is shown.  This may be useful when a binding to the src property is known to be invalid, to prevent 404 requests.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sizing</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Sets a sizing option for the image.  Valid values are <code>contain</code> (full aspect ratio of the image is contained within the element and letterboxed) or <code>cover</code> (image is cropped in order to fully cover the bounds of the element), or <code>null</code> (default: image takes natural size). Make sure you specify <code>height</code> and <code>width</code> if you use anything other thant <code>none</code> for <code>sizing</code></p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>position</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>When a sizing option is used (<code>cover</code> or <code>contain</code>), this determines how the image is aligned within the element bounds.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>preload</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>When <code>true</code>, any change to the <code>src</code> property will cause the <code>placeholder</code> image to be shown until the new image has loaded.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fade</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>When <code>preload</code> is true, setting <code>fade</code> to true will cause the image to fade into place.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>placeholder</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>This image will be used as a background/placeholder until the src image has loaded. Use of a data-URI for placeholder is encouraged for instant rendering.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Can be used to set the width of image (e.g. via binding); size may also be set via CSS.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Can be used to set the height of image (e.g. via binding); size may also be set via CSS.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>aspect</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Specify the aspect ratio to maintain, two numbers separated by semicolon(e.g. <code>16:9</code>). Make sure that the container for the image can resize vertically/ has enough space for it</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="_computeProportion"><span class="type-signature"></span>_computeProportion<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Computes aspect ratio of the image</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Jan 12 2017 13:32:01 GMT+0300 (Russia TZ 2 Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

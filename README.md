@@ -1,43 +1,80 @@
-# ES6 React + Karma + Jasmine + Webpack + PostCSS Boilerplate
+## ProportionalImage React component
 
-Boilerplate for building a client-based JavaScript library in ES6 and React using the following components:
+[Read API docs](https://confirmitasa.github.io/ProportionalImage)
 
-* [Babel](https://babeljs.io/)
-* [React](https://facebook.github.io/react/)
-* [webpack](https://webpack.github.io/)
-* [Jasmine](http://jasmine.github.io/)
-* [Karma](http://karma-runner.github.io/)
-* babel-plugin-istanbul
-* [ESLint](http://eslint.org/) with [eslint-config-airbnb](https://github.com/airbnb/javascript)
-* PostCSS with Autoprefixer (for autoprefixing vendors), includes and CSSnext (for css custom-properties etc.) and cssnano (for CSS minification)
-* JSDoc3 to auto-generate JSDoc documentation for JS that uses JSDoc comment syntax.
+`ProportionalImage` is an element for displaying an image that provides useful sizing and preloading options not found on the standard `<img>` tag.
+The `sizing` option allows the image to be either cropped (`cover`) or letterboxed (`contain`) to fill a fixed user-size placed on the element.
+The `preload` option prevents the browser from rendering the image until the image is fully loaded.
+In the interim, either the element's CSS `background-color` can be be used as the placeholder, or the `placeholder` property can be set to a URL (preferably a data-URI, for instant rendering) for a placeholder image.
+The `fade` option (only valid when `preload` is set) will cause the placeholder image/color to be faded out once the image is rendered.
 
-
-##SRC
-
-`./src` folder must contain at least `main.js` file. There you may write your code, but preferably write it in other files that are named according to their main Class and import them into main.js
-If you have a `.css` file that need to be included, import it into the top of `main.js` file via `require("./file/path/relative/to/main/js/file/styles.css")` which may include imports of other css files via `@import "./path/to/file.css"`. This `.css` file will be run through PostCSS.
-These two files are the ones that import content (via `require("path/to/module.js")` or `import ClassName from "./class/path/ClassName.js"` and via `@import "path/to/module.css";`) from other files located in the same folder/nested folders (if you need several files with classes)
-or act as the only js/css files for the module.
-If you plan to write tests using fixtures ([using Jasmine-jquery](https://github.com/velesin/jasmine-jquery) with [karma-jasmine-jquery](https://github.com/bessdsv/karma-jasmine-jquery)) (both shipped in this bundle)
-put your fixtures under `/src/__tests__/fixtures/fixtureFile.html`  (which would contain the code of your fixture omitting `<html>` and `<body>` tags) or `/src/__tests__/fixtures/fixtureFile.json`. In your tests you need to include the fixture and then you'll be able to reference any HTML tags by jquery selectors via `$j('.someSelector')` like below:
-
-```javascript
-describe('Fixture example', () => {
-
-  beforeEach(()=>{ // or beforeAll()
-    jasmine.getFixtures().fixturesPath = 'base/src/__tests__/fixtures'; // do not change this line, it's pointing to the correct folder with fixtures 
-    loadFixtures('table-nested-headers.html'); // use this file as a fixture
-  });
-
-  it('can tests if the fixture loaded', () => {
-    expect($j('#confirmit_agg_table')).toExist();
-  });
-});
-
+Examples:
+Basically identical to `<img src="...">` tag:
+```
+<ProportionalImage width="200" height="200" src="http://lorempixel.com/400/400" />
+```
+Will letterbox the image to fit and use styles rather than the attributes to set height and width:
+```
+<ProportionalImage style={{width:'400px', height:'400px'}} sizing="contain" src="http://lorempixel.com/600/400" />
+```
+Will crop the image to fit:
+```
+<ProportionalImage style={{width:'400px', height:'400px'}} sizing="cover" src="http://lorempixel.com/600/400" />
+```
+Will show light-gray background until the image loads:
+```
+<ProportionalImage style={{width:'400px', height:'400px', backgroundColor: 'lightgray'}} sizing="cover" preload="true" src="http://lorempixel.com/600/400" />
+```
+Will show a base-64 encoded placeholder image until the image loads:
+```
+<ProportionalImage style={{width:'400px', height:'400px'}} placeholder="data:image/gif;base64,..." sizing="cover" preload="true" src="http://lorempixel.com/600/400" />
+```
+Will fade the light-gray background out once the image is loaded:
+```
+<ProportionalImage style={{width:'400px', height:'400px', backgroundColor: 'lightgray'}} sizing="cover" preload="true" fade="true" src="http://lorempixel.com/600/400" />
+```
+Will disregard the height, because the aspect is provided, and reduce the image height to be in 16:9 ratio. Specifying height in this case is not necessary
+```
+<ProportionalImage aspect="16:9" style={{width:'400px', height:'400px', backgroundColor: 'lightgray'}} sizing="cover" preload="true" fade="true" src="http://lorempixel.com/600/400" />
+```
+If you don't want to stretch a placeholder, but display it in its natural size even if the main image uses `sizing`, feel free to use a PostCSS mixin `--ProportionalImage-placeholder` to restyle it:
+```css
+:root{
+ --ProportionalImage-placeholder: {
+   background-color: #f0f2f5;
+   background-size: auto !important;
+ };
+}
 ```
 
-To make use of the fixtures please refer to [Jasmine-jquery API documentation](https://github.com/velesin/jasmine-jquery)
+You may try this bit of code to see how it works:
+```postcss
+/* your variables file included prior to the ProportionalImage module include */
+:root{
+ --ProportionalImage-placeholder: {
+   background-color: #f0f2f5;
+   background-size: auto !important;
+ };
+}
+```
+
+```javascript
+//javascript code
+ReactDOM.render(
+  <div style={{width:'300px', height:'600px'}}><ProportionalImage
+    src="https://static.pexels.com/photos/2242/wall-sport-green-bike.jpg"
+    placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAA90lEQVR4Ae2XPUrGQBRFRxAEO12BVQiWrsHCZQQsXYSrsEuRHeSnsHELthZWruALIYlYiBwrxVsEnslMlXduNQMvB+6DkITYOA45DSNrmenICX8jB3IGtjKoQgUNMWiXBSMxmJYFsXCBC1zgAhdYKalSCp454ZSXVIIDFwQCl7xvF5Q8oHxx8ztRrBNoFcc8yd29zFTrBFrFGa/88MiRzOgmsAu0iowegDfOZUI38U+BVnHNJx9cyZ1swijQKiR33MpZN2EXaBW2yCYMAq3CENmEQaBVWFPs4W06p/747YhBnfYHpCdDBaqgZdpQTq2PV0H8uGAfgm/CGielQREouQAAAABJRU5ErkJggg=="
+    sizing="cover"
+    width="100%"
+    height="200"
+    fade="true"
+    preload="true"
+    alt="bicycle"
+    aspect="1:1"
+  /></div>,
+  document.querySelector("#root")
+);
+```
 
 ### Commands (configured in package.json)
 
