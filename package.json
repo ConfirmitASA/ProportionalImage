@@ -61,10 +61,10 @@
     "r-visual-fixture-test": "github:confirmitasa/r-visual-fixture-test",
     "rimraf": "^2.5.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.1"
-  },
-  "dependencies": {
-    "react": "^15.4.2",
+    "webpack": "^1.13.1",
     "react-dom": "^15.4.2"
+  },
+  "peerDependencies": {
+    "react": "^15.4.2"    
   }
 }
