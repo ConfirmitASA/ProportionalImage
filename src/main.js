@@ -1,5 +1,4 @@
 import React from 'react';
-//import ReactDOM from 'react-dom';
 
 class ProportionalImage extends React.Component {
   /**
@@ -83,9 +82,11 @@ class ProportionalImage extends React.Component {
     this._computeProportion(this.props.aspect);
   }
   _computeDimensions(){
+    let {width,height} = this.props;
     this.setState({
-      width:isNaN(this.props.width) ? this.props.width : this.props.width + 'px',
-      height:isNaN(this.props.height) ? this.props.height : this.props.height + 'px'});
+      width:isNaN(width) ? width : width + 'px',
+      height:isNaN(height) ? height : height + 'px'
+    });
   }
   /**
    * Computes aspect ratio of the image
@@ -112,40 +113,42 @@ class ProportionalImage extends React.Component {
   }
 
   render() {
+    let {width,height,proportion,src,sizing,position,loading,loaded,placeholderHidden} = this.state,
+        {preload,fade,placeholderSizing,placeholder,alt} = this.props;
     return (
       <div className="ProportionalImage"
            style={{
-             width: this.state.width,
-             height: this.state.height,
-             paddingTop:this.state.proportion
+             width: width,
+             height: height,
+             paddingTop: proportion
            }}>
         <div className="sizedImgDiv"
              role="img"
              style={{
-               backgroundImage: `url(${this.state.src})`,
-               backgroundSize:this.state.sizing,
-               backgroundPosition:this.state.position,
-               backgroundRepeat: this.state.sizing ? 'no-repeat' : '',
-               display: this.state.sizing? 'block':'none'
+               backgroundImage: `url(${src})`,
+               backgroundSize:sizing,
+               backgroundPosition:position,
+               backgroundRepeat: sizing && 'no-repeat',
+               display: sizing? 'block':'none'
              }}
         ></div>
         <img
-          src={this.state.src}
-          alt={this.props.alt}
+          src={src}
+          alt={alt}
           onLoad={this._imageOnload}
           onError={this._imageOnerror}
           style={{
-            display: this.state.sizing? 'none':'block'
+            display: sizing? 'none':'block'
           }}
         />
         <div
           style={{
-            backgroundImage: `url(${this.props.placeholder?this.props.placeholder:''})`,
-            backgroundSize: !this.props.placeholderSizing?this.state.sizing:this.props.placeholderSizing,
-            backgroundPosition:this.state.position,
-            backgroundRepeat: this.state.sizing ? 'no-repeat' : ''
+            backgroundImage: `url(${!!placeholder && placeholder})`,
+            backgroundSize: !placeholderSizing?sizing:placeholderSizing,
+            backgroundPosition:position,
+            backgroundRepeat: sizing && 'no-repeat'
           }}
-          className={`imagePlaceholder ${this.state.placeholderHidden?'hidden':''} ${(this.props.preload && this.props.fade && !this.state.loading && this.state.loaded) ? 'faded-out' : ''}`}></div>
+          className={`imagePlaceholder ${placeholderHidden && 'hidden'} ${(preload && fade && !loading && loaded) && 'faded-out'}`}></div>
       </div>
     );
   }
@@ -159,54 +162,31 @@ class ProportionalImage extends React.Component {
     })
   }
   _imageOnerror(){
-    this._reset();
-    this.setState({
-      loading:false,
-      loaded:false,
-      error:true
-    })
+    this.setState(Object.assign({},this._reset(),{error:true}));
   }
   _reset() {
-    this.setState({
+    return{
       src:'',
       loading:false,
       loaded:false,
       error:false
-    });
-  }
-  _computeSRC(src){
-    this.setState({
-      src: src? src:'',
-    });
-    this.setState({
-      loading:!!src,
-      loaded:false,
-      error:false
-    });
-  }
-  _load(){
-    this._reset();
-    if(!this.props.preventLoad) {
-      if (this.state.src != this.props.src) {
-        this._computeSRC(this.props.src)
-      }
     }
   }
+  _load(){
+    let state = this._reset();
+    if(!this.props.preventLoad) {
+      let src = this.props.src;
+      if (state.src != src) {
+        state = Object.assign({},state,{
+          src: !!src && src,
+          loading:!!src
+        });
+      }
+    }
+    this.setState(state);
+  }
+
 }
 
 export default ProportionalImage;
 
-/*ReactDOM.render(
- <div style={{width:'300px', height:'600px'}}><ProportionalImage
- src="https://static.pexels.com/photos/2242/wall-sport-green-bike.jpg"
- placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAA90lEQVR4Ae2XPUrGQBRFRxAEO12BVQiWrsHCZQQsXYSrsEuRHeSnsHELthZWruALIYlYiBwrxVsEnslMlXduNQMvB+6DkITYOA45DSNrmenICX8jB3IGtjKoQgUNMWiXBSMxmJYFsXCBC1zgAhdYKalSCp454ZSXVIIDFwQCl7xvF5Q8oHxx8ztRrBNoFcc8yd29zFTrBFrFGa/88MiRzOgmsAu0iowegDfOZUI38U+BVnHNJx9cyZ1swijQKiR33MpZN2EXaBW2yCYMAq3CENmEQaBVWFPs4W06p/747YhBnfYHpCdDBaqgZdpQTq2PV0H8uGAfgm/CGielQREouQAAAABJRU5ErkJggg=="
- sizing="cover"
- width="100%"
- height="200"
- fade="true"
- preload="true"
- alt="bicycle"
- aspect="1:1"
- /></div>,
- document.querySelector("#root")
- );*/
