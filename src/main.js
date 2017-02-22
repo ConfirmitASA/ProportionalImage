@@ -162,7 +162,10 @@ class ProportionalImage extends React.Component {
     })
   }
   _imageOnerror(){
-    this.setState(Object.assign({},this._reset(),{error:true}));
+    this.setState({
+      ...this._reset(),
+      error:true
+    });
   }
   _reset() {
     return{
@@ -177,15 +180,15 @@ class ProportionalImage extends React.Component {
     if(!this.props.preventLoad) {
       let src = this.props.src;
       if (state.src != src) {
-        state = Object.assign({},state,{
+        state = {
+          ...state,
           src: !!src && src,
           loading:!!src
-        });
+        };
       }
     }
     this.setState(state);
   }
-
 }
 
 export default ProportionalImage;
