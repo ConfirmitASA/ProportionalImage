@@ -13,7 +13,7 @@ module.exports = {
     //add the module.exports if only the export default declaration exists.
     //     exports.default = 'foo';
     //      module.exports = exports['default'];
-    require.resolve('babel-plugin-add-module-exports'),
+    //require.resolve('babel-plugin-add-module-exports'),
     // class { handleClick = () => { } }
     require.resolve('babel-plugin-transform-class-properties'),
     // { ...todo, completed: true }
