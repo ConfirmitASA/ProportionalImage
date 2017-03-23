@@ -16,6 +16,15 @@ const AUTOPREFIXER_BROWSERS = [
 var baseConfig = require('./webpack.config.base.js');
 
 var config = Object.create(baseConfig);
+// Process JS with Babel.
+config.module.loaders.push(
+  {
+    test   : /\.(js|jsx)$/,
+    exclude: /(bower_components)/,
+    loader : 'babel',
+    query  : require('../tools/babel.prod')
+  }
+);
 config.module.loaders.push({
   test:   /\.css$/,
   //exclude: /node_modules/,

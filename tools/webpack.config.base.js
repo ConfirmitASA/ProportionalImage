@@ -10,11 +10,7 @@ module.exports = {
     filename: name+".bundle.js"
   },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /(bower_components)/,
-      loader: 'babel',
-    }],
+    loaders: [],
   },
   resolve: {
     extensions: [
@@ -22,7 +18,8 @@ module.exports = {
       '.js',
     ],
   },
-    externals:{
-    'react':'React'
+  externals:{
+    'react':'React',
+    'react-dom':'ReactDOM'
   }
 };

@@ -7,7 +7,7 @@ const AUTOPREFIXER_BROWSERS = [
   'Android >= 4',
   'Chrome >= 32',
   'Firefox >= 28',
-  'Explorer >= 10',
+  'Explorer >= 9',
   'iOS >= 7',
   'Opera >= 12',
   'Safari >= 7.1'
@@ -16,12 +16,23 @@ const AUTOPREFIXER_BROWSERS = [
 var baseConfig = require('./webpack.config.base.js');
 
 var config = Object.create(baseConfig);
+// Process JS with Babel.
+config.module.loaders.push(
+  {
+    test   : /\.(js|jsx)$/,
+    exclude: /(bower_components)/,
+    loader : 'babel',
+    query  : require('../tools/babel.dev')
+  }
+);
+
 config.module.loaders.push({
   test:   /\.css$/,
   //exclude: /node_modules/,
   loader:  ExtractTextPlugin.extract("style","css!postcss")
 });
-config.devtool = 'eval-source-map';
+
+config.devtool = 'inline-source-map';
 config.plugins = [
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.DefinePlugin({
