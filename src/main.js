@@ -66,7 +66,7 @@ class ProportionalImage extends React.Component {
     this._imageOnload = this._imageOnload.bind(this);
     this._imageOnerror = this._imageOnerror.bind(this);
     this.state = {
-      src: '',
+      src: undefined,
       placeholderHidden:!(!!this.props.placeholder),
       sizing: this.props.sizing?this.props.sizing:null,
       position: this.props.position?this.props.position:'center',
@@ -169,7 +169,7 @@ class ProportionalImage extends React.Component {
   }
   _reset() {
     return{
-      src:'',
+      src:undefined,
       loading:false,
       loaded:false,
       error:false
@@ -182,7 +182,7 @@ class ProportionalImage extends React.Component {
       if (state.src !== src) {
         state = {
           ...state,
-          src: !!src ? src:'',
+          src: !!src ? src: undefined,
           loading:!!src
         };
       }
