@@ -114,7 +114,7 @@ class ProportionalImage extends React.Component {
 
   render() {
     let {width,height,proportion,src,sizing,position,loading,loaded,placeholderHidden} = this.state,
-        {preload,fade,placeholderSizing,placeholder,alt} = this.props;
+      {preload,fade,placeholderSizing,placeholder,alt} = this.props;
     return (
       <div className="ProportionalImage"
            style={{
@@ -125,13 +125,13 @@ class ProportionalImage extends React.Component {
         <div className="sizedImgDiv"
              role="img"
              style={{
-               backgroundImage: `url(${src})`,
+               backgroundImage: !!src?`url(${src})`:undefined,
                backgroundSize:sizing,
                backgroundPosition:position,
-               backgroundRepeat: sizing && 'no-repeat',
+               backgroundRepeat: sizing ? 'no-repeat':'initial',
                display: sizing? 'block':'none'
              }}
-        ></div>
+        />
         <img
           src={src}
           alt={alt}
@@ -143,12 +143,12 @@ class ProportionalImage extends React.Component {
         />
         <div
           style={{
-            backgroundImage: `url(${!!placeholder && placeholder})`,
+            backgroundImage: placeholder?`url(${placeholder})`:undefined,
             backgroundSize: !placeholderSizing?sizing:placeholderSizing,
             backgroundPosition:position,
-            backgroundRepeat: sizing && 'no-repeat'
+            backgroundRepeat: sizing ? 'no-repeat':'initial'
           }}
-          className={`imagePlaceholder ${placeholderHidden && 'hidden'} ${(preload && fade && !loading && loaded) && 'faded-out'}`}></div>
+          className={`imagePlaceholder ${placeholderHidden && 'hidden'} ${(preload && fade && !loading && loaded) && 'faded-out'}`} />
       </div>
     );
   }
@@ -179,10 +179,10 @@ class ProportionalImage extends React.Component {
     let state = this._reset();
     if(!this.props.preventLoad) {
       let src = this.props.src;
-      if (state.src != src) {
+      if (state.src !== src) {
         state = {
           ...state,
-          src: !!src && src,
+          src: !!src ? src:'',
           loading:!!src
         };
       }
